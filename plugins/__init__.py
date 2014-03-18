@@ -1,6 +1,9 @@
-
+from collections import namedtuple
+from datetime import date, timedelta
 from os import environ as env
 import redis
+
+billing_period = namedtuple('billing_period', 'start end')
 
 class Plugin(object):
 	
@@ -47,6 +50,14 @@ class Plugin(object):
 	@property
 	def data_last_retrieved(self):
 		return None
+	
+	@property
+	def billing_period(self):
+		today = date.today()
+		return billing_period(
+			date(today.year, today.month, day = 1),
+			date(today.year, today.month + 1, day = 1) - timedelta(days = 1)
+		) 
 
 from .videotron import Videotron
 
