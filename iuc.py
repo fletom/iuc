@@ -28,6 +28,7 @@ def check(max_usage, warn_email = None, from_email = None):
 		usage = plugin.combined_usage
 	except plugin.EndpointOffline:
 		print "Endpoint Offline :/"
+		return
 	
 	if usage > max_usage:
 		print "Threshold exceeded: {} GB exceeds {} GB by {} GB.".format(usage, max_usage, usage - max_usage)
