@@ -1,0 +1,14 @@
+Flask==0.10.1
+Jinja2==2.7.2
+MarkupSafe==0.19
+Sider==0.2.0
+Werkzeug==0.9.4
+argh==0.24.1
+envparse==0.1.5
+gunicorn==18.0
+itsdangerous==0.23
+lxml==3.3.3
+redis==2.9.1
+requests==2.2.1
+git+git://github.com/fletom/tinysmtp.git@patch-1
+wsgiref==0.1.2
