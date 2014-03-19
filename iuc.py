@@ -1,9 +1,9 @@
 import argh
 from argh.decorators import arg
 from os import environ as env
+import tinysmtp
 
 from plugins import *
-import tinysmtp
 
 
 plugins = {p.name: p for p in Plugin.__subclasses__()}
@@ -33,6 +33,12 @@ def check(max_usage, warn_email = None, from_email = None):
 	if usage > max_usage:
 		print "Threshold exceeded: {} GB exceeds {} GB by {} GB.".format(usage, max_usage, usage - max_usage)
 		if warn_email:
+			# A key that represents this particular warning for this particular billing period
+			warn_email_sent_key = '{}{}{} was sent'.format(plugin.billing_period, max_usage, warn_email)
+			
+			if plugin.redis_get(warn_email_sent_key):
+				return
+			
 			with tinysmtp.Connection.from_url(env['SMTP_URL']) as conn:
 				message = tinysmtp.Message(
 					sender = from_email,
@@ -41,6 +47,8 @@ def check(max_usage, warn_email = None, from_email = None):
 					body = "IUC checker reported current usage at: {} GB".format(usage),
 				)
 				conn.send(message)
+				
+				plugin.redis_set(warn_email_sent_key, 'true', ex = 2764800) # Expire after one month
 		
 	else:
 		print "All good."
