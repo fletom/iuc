@@ -1,4 +1,5 @@
 from collections import namedtuple
+import calendar
 from datetime import date, timedelta
 from os import environ as env
 import redis
@@ -55,8 +56,8 @@ class Plugin(object):
 	def billing_period(self):
 		today = date.today()
 		return billing_period(
-			date(today.year, today.month, day = 1),
-			date(today.year, today.month + 1, day = 1) - timedelta(days = 1)
+			today.replace(day = 1),
+			today.replace(day = calendar.monthrange(today.year, today.month)[1]),
 		) 
 
 from .videotron import Videotron
