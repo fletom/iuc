@@ -31,7 +31,7 @@ class Videotron(Plugin):
 	@property
 	@memoize_method
 	def cached_raw_data(self):
-		if not self.data_last_retrieved or ((datetime.now() - self.data_last_retrieved) > timedelta(hours = 1)):
+		if not self.data_last_retrieved or ((datetime.now() - self.data_last_retrieved) > timedelta(minutes = 10)):
 			try:
 				raw_data = self.raw_data
 			except self.EndpointOffline:
