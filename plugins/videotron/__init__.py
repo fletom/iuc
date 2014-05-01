@@ -44,11 +44,10 @@ class Videotron(Plugin):
 		
 		if self.use_cache:
 			cached_data = self.redis_get('cached_raw_data')
+			if cached_data is not None:
+				return cached_data
 		
-		if cached_data is None:
-			raise self.EndpointOffline
-		else:
-			return cached_data
+		raise self.EndpointOffline
 	
 	@property
 	@memoize_method
