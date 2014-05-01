@@ -13,7 +13,7 @@ class Videotron(Plugin):
 	name = 'videotron'
 	
 	# Videotron's endpoint is offline every night after midnight and starts returning 403 after a few requests.
-	uses_redis = True
+	use_cache = True
 	
 	def __init__(self, username, usage_cap = None):
 		if usage_cap:
@@ -42,7 +42,8 @@ class Videotron(Plugin):
 				self.redis_set('cached_raw_data', raw_data)
 				return raw_data
 		
-		cached_data = self.redis_get('cached_raw_data')
+		if self.use_cache:
+			cached_data = self.redis_get('cached_raw_data')
 		
 		if cached_data is None:
 			raise self.EndpointOffline

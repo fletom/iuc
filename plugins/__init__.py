@@ -11,7 +11,7 @@ class Plugin(object):
 	name = None
 	usage_cap = None
 	# Use this when your ISP's usage checking endpoint is unstable or strictly rate-limited.
-	uses_redis = False
+	use_cache = False
 	redis = redis.Redis.from_url(env.get('REDIS_URL') or env.get('REDISCLOUD_URL') or 'redis://localhost:6379')
 	
 	class EndpointOffline(Exception):

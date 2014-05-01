@@ -23,6 +23,7 @@ def run():
 @arg('max_usage', type = int)
 def check(max_usage, warn_email = None, from_email = None):
 	plugin = default_plugin
+	plugin.use_cache = False
 	
 	try:
 		usage = plugin.combined_usage
